@@ -1,0 +1,76 @@
+import { prisma } from "../database/client";
+
+export interface IStudent {
+  user_id: number;
+  name: string;
+  email: string;
+  cpf: string;
+  ra: string;
+  id?: number;
+}
+
+export class StudentsRepository {
+  async index(userId: number) {
+    return prisma.student.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
+
+  async create({ name, user_id, email, cpf, ra }: IStudent) {
+    const findStudent = await prisma.student.findFirst({
+      where: {
+        ra,
+      },
+    });
+
+    if (findStudent) {
+      throw new Error("Aluno já cadastrado");
+    }
+
+    return prisma.student.create({
+      data: {
+        name,
+        userId: user_id,
+        email,
+        cpf,
+        ra,
+      },
+    });
+  }
+
+  async update({ name, user_id, email, id }: Omit<IStudent, "cpf" | "ra">) {
+    return prisma.student.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        userId: user_id,
+        email,
+      },
+    });
+  }
+
+  async delete(id: number, userId: number) {
+    const student = await prisma.student.findFirst({
+      where: {
+        id,
+        userId,
+      },
+    });
+
+    if (!student) {
+      throw new Error("Aluno não encontrado");
+    }
+
+    await prisma.student.delete({
+      where: {
+        id,
+      },
+    });
+
+    return "ok";
+  }
+}
