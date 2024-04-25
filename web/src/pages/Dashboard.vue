@@ -25,6 +25,12 @@
           width="100"
         ></v-img>
       </v-toolbar-title>
+
+      <template #append>
+        <v-btn @click="logout">
+          <v-icon>mdi-logout</v-icon>
+        </v-btn>
+      </template>
     </v-app-bar>
 
     <v-main>
@@ -47,6 +53,13 @@ export default {
       drawer: true,
       logo: Logo,
     };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.$router.push({ name: "Login" });
+    },
   },
 }
 </script>
