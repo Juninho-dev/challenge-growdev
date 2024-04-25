@@ -1,14 +1,14 @@
-// User controller
-import { User } from "@prisma/client";
+import { compare, hash } from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
 import { apiMessage } from "../helpers/error";
-import { AuthRepository } from "../repositories/AuthRepository";
+import { generateToken } from "../helpers/generateToken";
+import { UserRepository } from "../repositories/UserRepository";
 
 export class AuthController {
   async register(req: Request, res: Response) {
-    const authRepository = new AuthRepository();
+    const userRepository = new UserRepository();
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -22,18 +22,33 @@ export class AuthController {
       email,
       password
     } = req.body;
-    const user: User = await authRepository.register({
-      name,
-      email,
-      password,
-    });
 
-    return res.send(apiMessage(true, 200, "User registered", user));
+    try {
+      const userAlreadyExists = await userRepository.findByEmail(email);
+
+      if (userAlreadyExists) {
+        return res.status(400)
+          .send(apiMessage(false, 500, "Usuário já existe"));
+      }
+
+      const hashedPassword = await hash(password, 10);
+
+      const user = await userRepository.create({
+        name,
+        email,
+        password: hashedPassword
+      });
+
+      return res.send(apiMessage(true, 200, "User registered", user));
+    } catch (err: any) {
+      return res.status(500)
+        .send(apiMessage(false, 500, err.message));
+    }
   }
 
   async login(req: Request, res: Response) {
     const errors = validationResult(req);
-    const authRepository = new AuthRepository();
+    const userRepository = new UserRepository();
 
     if (!errors.isEmpty()) {
       return res
@@ -46,20 +61,44 @@ export class AuthController {
       password
     } = req.body;
 
-    const user = await authRepository.login({
-      email,
-      password,
-    });
+    try {
+      const user = await userRepository.findByEmail(email);
 
-    return res.send(apiMessage(true, 200, "Login successful", user));
+      if (!user) {
+        return res.status(404)
+          .send(apiMessage(false, 500, "Usuário não existe"));
+      }
+
+      const passwordMatch = await compare(password, user.password);
+
+      if (!passwordMatch) {
+        return res.status(400)
+          .send(apiMessage(false, 500, "Senha incorreta"));
+      }
+
+      const token = generateToken(String(user.id), { email });
+
+      return res.send(apiMessage(true, 200, "Login successful", {
+        token,
+        user
+      }));
+    } catch (err: any) {
+      return res.status(500)
+        .send(apiMessage(false, 500, err.message));
+    }
   }
 
   async auth(req: Request, res: Response) {
     const { user_id } = req;
-    const authRepository = new AuthRepository();
+    const userRepository = new UserRepository();
 
-    const user = await authRepository.auth(Number(user_id));
+    try {
+      const user = await userRepository.findById(Number(user_id));
 
-    return res.send(apiMessage(true, 200, "User authenticated", user));
+      return res.send(apiMessage(true, 200, "User authenticated", user));
+    } catch (err: any) {
+      return res.status(500)
+        .send(apiMessage(false, 500, err.message));
+    }
   }
 }

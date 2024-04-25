@@ -1,9 +1,9 @@
 import { User } from "@prisma/client";
 
 import { generateToken } from "../helpers/generateToken";
-import { AuthRepository, ICreateUser } from "../repositories/AuthRepository";
+import { UserRepository, ICreateUser } from "../repositories/UserRepository";
 
-export class AuthRepositoryInMemory implements AuthRepository {
+export class AuthRepositoryInMemory implements UserRepository {
   private users: User[] = [];
 
   async register(
