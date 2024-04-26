@@ -42,6 +42,21 @@ export class StudentsController {
     return res.send(apiMessage(true, 201, "Aluno criado", student));
   }
 
+  async show(req: Request, res: Response) {
+    const { id } = req.params;
+    const { user_id } = req;
+
+    const studentsRepository = new StudentsRepository();
+
+    try {
+      const student = await studentsRepository.show(Number(id), Number(user_id));
+
+      return res.send(apiMessage(true, 200, "Student", student));
+    } catch (error) {
+      return res.status(500).send(apiMessage(false, 500, "Ocorreu um erro ao buscar o aluno", null));
+    }
+  }
+
   async update(req: Request, res: Response) {
     const errors = validationResult(req);
     const { user_id } = req;

@@ -8,6 +8,11 @@ const router = Router();
 const studentsController = new StudentsController();
 
 router.get("/students", authenticateToken, studentsController.index);
+router.get(
+  "/students/:id",
+  authenticateToken,
+  studentsController.update,
+);
 router.post(
   "/students",
   StudentsValidator.validate("createStudent"),

@@ -15,7 +15,7 @@
 import RegisterCardForm from "@/components/RegisterForm.vue";
 import Loading from "@/components/Loading.vue";
 import VueHeader from "@/components/Header.vue";
-import { register } from "@/services/auth";
+import { register } from "@/services/authService";
 import { getError } from "@/helpers/error";
 
 export default {

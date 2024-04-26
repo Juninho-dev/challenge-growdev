@@ -34,14 +34,14 @@
     </v-app-bar>
 
     <v-main>
-      <students />
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
 import Logo from "@/assets/logo_growdev.svg"
-import Students from "@/components/Students.vue"
+import Students from "@/pages/Students/Students.vue"
 
 export default {
   name: "Dashboard",

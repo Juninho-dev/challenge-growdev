@@ -2,7 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/pages/Login.vue'
 import Register from '@/pages/Register.vue'
 import Dashboard from '@/pages/Dashboard.vue'
-import { authUser } from "@/services/auth";
+import Students from '@/pages/Students/Students.vue'
+import CreateStudent from '@/pages/Students/CreateStudent.vue'
+import NotFound from '@/pages/NotFound.vue'
+import { authUser } from "@/services/authService";
+import UpdateStudent from "@/pages/Students/UpdateStudent.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,7 +31,35 @@ const router = createRouter({
       path: "/dashboard",
       name: "Dashboard",
       component: Dashboard,
+      redirect: "/dashboard/students",
+      children: [
+        {
+          path: "students",
+          children: [
+            {
+              path: "",
+              name: "Students",
+              component: Students,
+            },
+            {
+              path: "create",
+              name: "CreateStudent",
+              component: CreateStudent,
+            },
+            {
+              path: "update/:id",
+              name: "UpdateStudent",
+              props: true,
+              component: UpdateStudent,
+            },
+          ]
+        }
+      ]
     },
+    {
+      path: "/:pathMatch(.*)*",
+      component: NotFound,
+    }
   ]
 })
 

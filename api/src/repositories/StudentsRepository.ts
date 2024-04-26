@@ -53,6 +53,15 @@ export class StudentsRepository {
     });
   }
 
+  async show(id: number, userId: number) {
+    return prisma.student.findFirst({
+      where: {
+        id,
+        userId,
+      },
+    });
+  }
+
   async delete(id: number, userId: number) {
     const student = await prisma.student.findFirst({
       where: {

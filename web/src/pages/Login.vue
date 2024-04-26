@@ -15,7 +15,7 @@
 import LoginCardForm from "@/components/LoginForm.vue";
 import Loading from "@/components/Loading.vue";
 import VueHeader from "@/components/Header.vue";
-import { login } from "@/services/auth";
+import { login } from "@/services/authService";
 import { getError } from "@/helpers/error";
 
 export default {
@@ -41,7 +41,7 @@ export default {
         });
 
         if (response.isSuccess) {
-          this.$router.push({ name: "Dashboard" });
+          this.$router.push({ name: "Students" });
         }
       } catch (error) {
         const tratativeError = getError(error, "Erro ao fazer login");

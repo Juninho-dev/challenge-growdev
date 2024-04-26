@@ -1,16 +1,10 @@
 import api from "@/services/api";
+import { IApiResponse } from "@/interfaces/api";
 
 interface IRegister {
   name: string;
   email: string;
   password: string;
-}
-
-interface IApiResponse<T> {
-  isSuccess: boolean;
-  payload: T;
-  message: string;
-  code: number;
 }
 
 interface ILoginUser {
