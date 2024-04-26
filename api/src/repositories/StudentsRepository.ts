@@ -19,16 +19,6 @@ export class StudentsRepository {
   }
 
   async create({ name, user_id, email, cpf, ra }: IStudent) {
-    const findStudent = await prisma.student.findFirst({
-      where: {
-        ra,
-      },
-    });
-
-    if (findStudent) {
-      throw new Error("Aluno já cadastrado");
-    }
-
     return prisma.student.create({
       data: {
         name,
@@ -81,5 +71,13 @@ export class StudentsRepository {
     });
 
     return "ok";
+  }
+
+  async findByRa(ra: string) {
+    return prisma.student.findFirst({
+      where: {
+        ra,
+      },
+    });
   }
 }

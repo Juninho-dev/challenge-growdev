@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 
 import { apiMessage } from "../helpers/error";
 import { StudentsRepository } from "../repositories/StudentsRepository";
+import { prisma } from "../database/client";
 
 export class StudentsController {
   async index(req: Request, res: Response) {
@@ -31,6 +32,12 @@ export class StudentsController {
     }
 
     const studentsRepository = new StudentsRepository();
+    const findStudent = await studentsRepository.findByRa(ra);
+
+    if (findStudent) {
+      return res.status(400).send(apiMessage(false, 400, "Aluno já cadastrado", null));
+    }
+
     const student = await studentsRepository.create({
       name,
       user_id: Number(user_id),
