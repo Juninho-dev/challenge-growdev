@@ -96,22 +96,17 @@ O projeto esta dividido em:
 - **Helpers**
 
 ## Controller
-É responsável por intermediar as requisições enviadas pelo Front com as respostas fornecidas pelo Model, processando os dados que o usuário informou e repassando para outras camadas, utilizando a arquitetura MVC.
-
+A camada Controller atua como intermediária entre as solicitações enviadas pelo Front-end e as respostas fornecidas pelo Model, processando os dados inseridos pelo usuário e transmitindo-os para outras camadas. Essa camada é fundamental para a estruturação da arquitetura MVC (Model-View-Controller).
 ## Middleware
-Responsável por barrar as requisições e manipular as informações. Foi criado 2 middlewares, um se chama `authenticateToken` sendo responsável por verificar se o usuário esta autenticado na plataforma, o outro se chama `errorMiddleware` responsável por tratar os erros da aplicação utilizando o padrão `apiMessage`.
-
+Este componente é encarregado de filtrar as requisições e manipular as informações recebidas. Foram desenvolvidos dois middlewares: o primeiro, denominado authenticateToken, tem a responsabilidade de verificar se o usuário está autenticado na plataforma; o segundo, denominado errorMiddleware, trata os erros da aplicação seguindo o padrão apiMessage.
 ## Repositories
-Responsável por implementar as regras de negócio no que se refere aos modelos de banco de dados.
-
+Responsável por implementar as lógicas de negócio relacionadas aos modelos de banco de dados.
 ## Validators
-Responsável por tratar e validar as informações enviadas pelo Front.
-
+Responsável por receber, tratar e validar as informações provenientes do Front-end.
 ## Routes
-Responsável por conter todas as rotas da `API`.
-
+Responsável por definir e gerenciar todas as rotas da API.
 ## Helpers
-Feito para criar funcões que possam ser usadas mais de uma vez no código e tambem manter o código limpo.
+Criado para desenvolver funções que podem ser reutilizadas em várias partes do código, visando manter a base do código organizada e legível.
 
 ---
 ### 🚧 Lista de Atividades
@@ -126,7 +121,7 @@ Feito para criar funcões que possam ser usadas mais de uma vez no código e tam
 - [x] Use the default response api.
 - [x] Create students routes.
 - [ ] Create `swagger` documentation.
-- [x] Create unit tests.
+- [x] Create tests integration.
 
 
 #### TO DO WEB

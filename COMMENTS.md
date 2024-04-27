@@ -65,5 +65,4 @@ O projeto foi inteiro desenvolvido utilizando o typescript, optei por usar o SOL
 
 # O que você melhoraria se tivesse mais tempo
 - Feito a documentação da API utilizando o `swagger`;
-- Implementado testes de integração no Back;
 - Implementado testes de componentes no Front;
