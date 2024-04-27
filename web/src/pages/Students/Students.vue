@@ -6,9 +6,9 @@
       <v-row>
         <v-col>
           <v-text-field
-            label="Pesquisar"
+            label="Pesquisar pelo nome"
             variant="outlined"
-            @input="handleSearch"
+            @update:model-value="handleSearch($event)"
           />
         </v-col>
         <v-col class="text-end">
@@ -25,17 +25,57 @@
       <v-table>
         <thead>
         <tr>
-          <th class="text-left">Registro Acadêmico</th>
           <th class="text-left">
-            Nome
+            Registro Acadêmico
             <v-btn
+              v-if="filters.sort === 'ra' && filters.order === 'asc'"
               variant="plain"
               icon="mdi-arrow-up-bold"
               size="x-small"
-              @click="sortByName"
+              @click="sortBy('ra', 'desc')"
+            />
+            <v-btn
+              v-else
+              variant="plain"
+              icon="mdi-arrow-down-bold"
+              size="x-small"
+              @click="sortBy('ra', 'asc')"
             />
           </th>
-          <th class="text-left">CPF</th>
+          <th class="text-left">
+            Nome
+            <v-btn
+              v-if="filters.sort === 'name' && filters.order === 'asc'"
+              variant="plain"
+              icon="mdi-arrow-up-bold"
+              size="x-small"
+              @click="sortBy('name', 'desc')"
+            />
+            <v-btn
+              v-else
+              variant="plain"
+              icon="mdi-arrow-down-bold"
+              size="x-small"
+              @click="sortBy('name', 'asc')"
+            />
+          </th>
+          <th class="text-left">
+            CPF
+            <v-btn
+              v-if="filters.sort === 'cpf' && filters.order === 'asc'"
+              variant="plain"
+              icon="mdi-arrow-up-bold"
+              size="x-small"
+              @click="sortBy('cpf', 'desc')"
+            />
+            <v-btn
+              v-else
+              variant="plain"
+              icon="mdi-arrow-down-bold"
+              size="x-small"
+              @click="sortBy('cpf', 'asc')"
+            />
+          </th>
           <th class="text-left">Ações</th>
         </tr>
         </thead>
@@ -79,6 +119,7 @@ import { IStudent } from "@/interfaces/student";
 import { setMaskCpf } from "@/helpers/helpers";
 import { getError } from "@/helpers/error";
 import Loading from "@/components/Loading.vue";
+import { debounce } from "lodash"
 
 export default {
   name: "Students",
@@ -88,44 +129,38 @@ export default {
       search: "",
       students: [] as IStudent[],
       loading: false,
+      filters: {
+        name: "",
+        order: "asc",
+        sort: "name",
+      },
     }
   },
   created() {
     this.fetchStudents();
+    this.handleSearch = debounce(this.handleSearch, 500) as (text: string) => Promise<void>;
   },
   methods: {
     setMaskCpf,
-    async handleSearch(e: Event) {
-      const value = (e.target as HTMLInputElement).value;
-      if (value) {
-        this.students = this.students.filter((student) =>
-          student.name.toLowerCase().includes(value.toLowerCase())
-        );
-      } else {
-        await this.fetchStudents();
-      }
+    async handleSearch(text: string): Promise<void>  {
+      this.filters.name = text;
+      await this.fetchStudents();
     },
     async fetchStudents() {
       this.loading = true;
 
       try {
-        this.students = await studentService.list();
+        this.students = await studentService.list(this.filters);
       } catch (error) {
         console.error(error);
       } finally {
         this.loading = false;
       }
     },
-    sortByName() {
-      this.students.sort((a, b) => {
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      });
+    sortBy(sort: "name" | "cpf" | "ra", order: "asc" | "desc") {
+      this.filters.sort = sort;
+      this.filters.order = order;
+      this.fetchStudents();
     },
     async handleOpenDialogDelete(id: number) {
       const { value } = await this.$swal({

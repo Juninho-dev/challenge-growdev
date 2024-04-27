@@ -9,16 +9,46 @@ export interface IStudent {
   id?: number;
 }
 
+export interface IStudentFilters {
+  name?: string;
+  email?: string;
+  cpf?: string;
+  ra?: string;
+  order?: string;
+  sort?: string;
+}
+
 export class StudentsRepository {
-  async index(userId: number) {
+  async listByUserId(userId: number, filters?: IStudentFilters) {
     return prisma.student.findMany({
       where: {
         userId,
+        name: {
+          contains: filters?.name,
+        },
+        email: {
+          contains: filters?.email,
+        },
+        cpf: {
+          contains: filters?.cpf,
+        },
+        ra: {
+          contains: filters?.ra,
+        },
+      },
+      orderBy: {
+        [filters?.sort || "id"]: filters?.order || "asc",
       },
     });
   }
 
-  async create({ name, user_id, email, cpf, ra }: IStudent) {
+  async create({
+    name,
+    user_id,
+    email,
+    cpf,
+    ra
+  }: IStudent) {
     return prisma.student.create({
       data: {
         name,
@@ -30,7 +60,12 @@ export class StudentsRepository {
     });
   }
 
-  async update({ name, user_id, email, id }: Omit<IStudent, "cpf" | "ra">) {
+  async update({
+    name,
+    user_id,
+    email,
+    id
+  }: Omit<IStudent, "cpf" | "ra">) {
     return prisma.student.update({
       where: {
         id,
@@ -43,7 +78,7 @@ export class StudentsRepository {
     });
   }
 
-  async show(id: number, userId: number) {
+  async findByIdAndUserId(id: number, userId: number) {
     return prisma.student.findFirst({
       where: {
         id,

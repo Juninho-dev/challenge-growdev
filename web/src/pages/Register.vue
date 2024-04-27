@@ -33,7 +33,6 @@ export default {
   methods: {
     async handleRegister(name: string, email: string, password: string) {
       this.loading = true;
-      console.log(name, email, password)
       try {
         const response = await register({
           email,
@@ -42,7 +41,12 @@ export default {
         });
 
         if (response.isSuccess) {
-          this.$router.push({ name: "Dashboard" });
+          this.$swal({
+            title: "Cadastro realizado com sucesso",
+            text: "Você será redirecionado para a página de login",
+            icon: "success",
+          });
+          this.$router.push({ name: "Login" });
         }
       } catch (error) {
         const tratativeError = getError(error, "Erro ao fazer cadastro");

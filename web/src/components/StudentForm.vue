@@ -3,6 +3,7 @@
     <v-col cols="12">
       <v-text-field
         v-model="form.name"
+        id="name"
         :error-messages="v$.form.name.$errors?.map(error => error.$message)"
         label="Nome"
         outlined
@@ -12,6 +13,8 @@
     </v-col>
     <v-col cols="12">
       <v-text-field
+        type="email"
+        id="email"
         v-model="form.email"
         label="E-mail"
         outlined
@@ -23,9 +26,10 @@
     <v-col cols="12">
       <v-text-field
         v-model="form.ra"
+        id="ra"
         label="Registro Acadêmico"
         type="number"
-        :disabled="!!initialData?.id"
+        :disabled="haveId"
         :error-messages="v$.form.ra.$errors?.map(error => error.$message)"
         outlined
         @input="v$.form.ra.$touch"
@@ -35,9 +39,10 @@
     <v-col cols="12">
       <v-text-field
         :model-value="mask.masked(form.cpf)"
+        id="cpf"
         label="CPF"
         outlined
-        :disabled="!!initialData?.id"
+        :disabled="haveId"
         counter="14"
         :error-messages="v$.form.cpf.$errors.map(error => error.$message)"
         @update:model-value="form.cpf = mask.unmasked($event)"
@@ -60,6 +65,10 @@ export default {
     initialData: {
       type: Object,
       default: () => ({} as IStudent),
+    },
+    haveId: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {

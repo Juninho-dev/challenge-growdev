@@ -10,7 +10,7 @@ services:
     volumes:
       - ./api:/app
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     command: yarn dev
     depends_on:
       - db

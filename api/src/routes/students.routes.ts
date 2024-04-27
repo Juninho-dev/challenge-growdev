@@ -7,11 +7,16 @@ import StudentsValidator from "../validators/StudentsValidator";
 const router = Router();
 const studentsController = new StudentsController();
 
-router.get("/students", authenticateToken, studentsController.index);
+router.get(
+  "/students",
+  StudentsValidator.validate("indexStudent"),
+  authenticateToken,
+  studentsController.index
+);
 router.get(
   "/students/:id",
   authenticateToken,
-  studentsController.update,
+  studentsController.show,
 );
 router.post(
   "/students",

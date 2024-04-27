@@ -2,7 +2,7 @@
   <v-card class="elevation-12 rounded-md pa-5">
     <v-card-title class="text-center">
       <h1 class="display-1 font-weight">Cadastre-se</h1>
-      <v-divider class="mt-5 bg-secondary" />
+      <v-divider class="mt-5 bg-secondary"/>
       <span class="font-weight-light">
         Preencha os campos abaixo para continuar
       </span>
@@ -22,6 +22,7 @@
           label="E-mail"
           required
           type="email"
+          autocomplete="off"
           variant="outlined"
         />
         <v-text-field
@@ -32,6 +33,7 @@
           label="Senha"
           required
           variant="outlined"
+          autocomplete="off"
           @click:append="showPassword = !showPassword"
         />
       </v-form>
@@ -96,5 +98,5 @@ export default {
       this.$emit("register", this.name, this.email, this.password);
     },
   },
-}
+};
 </script>

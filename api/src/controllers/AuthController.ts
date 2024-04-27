@@ -42,7 +42,7 @@ export class AuthController {
       return res.send(apiMessage(true, 200, "User registered", user));
     } catch (err: any) {
       return res.status(500)
-        .send(apiMessage(false, 500, err.message));
+        .send(apiMessage(false, 500, "Não foi possível registrar o usuário"));
     }
   }
 
@@ -84,7 +84,7 @@ export class AuthController {
       }));
     } catch (err: any) {
       return res.status(500)
-        .send(apiMessage(false, 500, err.message));
+        .send(apiMessage(false, 500, "Não foi possível fazer login"));
     }
   }
 
@@ -98,7 +98,7 @@ export class AuthController {
       return res.send(apiMessage(true, 200, "User authenticated", user));
     } catch (err: any) {
       return res.status(500)
-        .send(apiMessage(false, 500, err.message));
+        .send(apiMessage(false, 500, "Não foi possível autenticar o usuário"));
     }
   }
 }

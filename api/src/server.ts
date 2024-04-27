@@ -16,4 +16,12 @@ app.use(StudentsRoutes);
 
 app.use(errorMiddleware);
 
-app.listen(3000, () => console.log("Server is running on port 3000"));
+if (process.env.NODE_ENV === "test") {
+  app.listen(3333, () => {
+    console.log("Server started on port 3333");
+  });
+} else {
+  app.listen(3000, () => console.log("Server is running on port 3000"));
+}
+
+export default app;

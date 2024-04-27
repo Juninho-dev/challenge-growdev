@@ -1,11 +1,12 @@
 <template>
   <v-container>
     <loading :loading/>
-    <h2>Atualizar Aluno {{ student.name }}</h2>
+    <h2>Atualizar Aluno</h2>
     <div class="mt-10">
       <student-form
         v-if="student && !loading"
         :initial-data="student"
+        have-id
         @form-changed="student = $event"
       />
       <div class="d-flex justify-space-between">

@@ -9,7 +9,7 @@ describe("Test Register Page", () => {
     cy.get("input[type='text']");
     cy.get("input[type='email']");
     cy.get("input[type='password']");
-    cy.get("button.v-btn.bg-primary");
+    cy.get("button.v-btn.bg-orange");
   });
 
   it("verify if have link to login", () => {
@@ -21,11 +21,11 @@ describe("Test Register Page", () => {
     cy.get("input[type='text']").type("teste");
     cy.get("input[type='email']").type(`teste${number}@teste.com`);
     cy.get("input[type='password']").type("password");
-    cy.get("button.v-btn.bg-primary").click();
+    cy.get("button.v-btn.bg-orange").click();
 
-    cy.get("div.swal2-html-container").should(
+    cy.get("h2#swal2-title").should(
       "have.text",
-      "Cadastro realizado com sucesso!"
+      "Cadastro realizado com sucesso"
     );
 
     cy.get("button.swal2-confirm").click();
@@ -40,7 +40,7 @@ describe("Test Register Page", () => {
     cy.get("input[type='text']").type("teste");
     cy.get("input[type='email']").type(`teste${number}@teste.com`);
     cy.get("input[type='password']").type("password");
-    cy.get("button.v-btn.bg-primary").click();
+    cy.get("button.v-btn.bg-orange").click();
 
     cy.get("button.swal2-confirm").click();
 
@@ -48,7 +48,7 @@ describe("Test Register Page", () => {
     cy.get("input[type='text']").type("teste");
     cy.get("input[type='email']").type(`teste${number}@teste.com`);
     cy.get("input[type='password']").type("password");
-    cy.get("button.v-btn.bg-primary").click();
+    cy.get("button.v-btn.bg-orange").click();
 
     cy.get("div.swal2-html-container").should("have.text", "Usuário já existe");
   });
