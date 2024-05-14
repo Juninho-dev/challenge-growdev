@@ -1,4 +1,4 @@
-# 🗺 Desafio "Growdev"
+# 🗺 Ed Tech
 
 <h1 align="center">
     <img alt="Growdev logo" src="./assets/logo_growdev.svg" height="100px" />
@@ -23,7 +23,7 @@
 
 ## 💭 Sobre
 
-O desafio consiste em uma aplicação onde seja possível realizar a matrícula dos alunos na turma de programação web da instituição `Edtech`.
+O código consiste em uma aplicação onde seja possível realizar a matrícula dos alunos na turma de programação web da instituição `Edtech`.
 
 ---
 
